@@ -1,9 +1,8 @@
-import './App.css'
-
+import EntryComponent from "./Components/EntryComponent"
 function App() {
   return (
     <>
-      
+      <EntryComponent/>
     </>
   )
 }
