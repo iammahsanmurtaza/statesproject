@@ -1,21 +1,52 @@
+import { useState } from 'react'
 export default function Forms () {
-  //   function submitHandler (event) {
-  //     event.preventDefault()
-  //     const formEl = event.currentTarget
-  //     const formData = new FormData(formEl)
-  //     const email = formData.get('email')
-  //     const password = formData.get('password')
-  //     console.log(email, password)
-  //     formEl.reset()
-  //   }
+  const jokes = [
+    {
+      setup: 'I got my daughter a fridge for her birthday.',
+      punchline: "I can't wait to see her face light up when she opens it.",
+    },
+    {
+      setup: 'How did the hacker escape the police?',
+      punchline: 'He just ransomware!',
+    },
+    {
+      setup: "Why don't pirates travel on mountain roads?",
+      punchline: 'Scurvy.',
+    },
+    {
+      setup: 'Why do bees stay in the hive in the winter?',
+      punchline: 'Swarm.',
+    },
+    {
+      setup: "What's the best thing about Switzerland?",
+      punchline: "I don't know, but the flag is a big plus!",
+    },
+  ]
+
+  const [shownJokes, setShownJokes] = useState(() => jokes.map(() => false))
+
   function signUp (formData) {
-    console.log(formData.get('password'))
-    console.log(formData.get('email'))
-    console.log(formData.get('description'))
-    console.log(formData.get('radio'))
+    // console.log(formData.get('password'))
+    // console.log(formData.get('email'))
+    // console.log(formData.get('description'))
+    // console.log(formData.get('radio'))
+    // console.log(...formData.getAll('checkbox'))
+    // console.log(formData.get('favDrop'))
+    console.log(Object.fromEntries(formData))
+    // but it does not add the arrays for the chekboxes
+    // which are multiple selected
+    // so we have to that manually
     console.log(...formData.getAll('checkbox'))
-    console.log(formData.get('favDrop'))
   }
+
+  function toggleJoke (index) {
+    setShownJokes(prev => {
+      const next = [...prev]
+      next[index] = !next[index]
+      return next
+    })
+  }
+
   return (
     <>
       <div className='min-h-screen bg-teal-400 flex flex-col items-center pt-10'>
@@ -122,6 +153,39 @@ export default function Forms () {
             Submit
           </button>
         </form>
+        <div className='max-w-4xl mx-auto'>
+          <div className='text-center mb-10'>
+            <h1 className='text-4xl font-bold text-slate-800'>
+              Classic Dad Jokes
+            </h1>
+            <p id='Hidden' className='text-slate-500 mt-2'>
+              {'A collection of painfully good jokes'}
+            </p>
+          </div>
+
+          <div className='space-y-6'>
+            {jokes.map((joke, index) => (
+              <div
+                key={index}
+                className='bg-white rounded-2xl shadow-md p-6 border border-slate-200 hover:shadow-lg transition'
+              >
+                <h2 className='text-xl font-semibold text-slate-800'>
+                  {joke.setup}
+                </h2>
+                <p id='Hidden' className='mt-3 text-slate-600'>
+                  {shownJokes[index] && joke.punchline}
+                </p>
+                <button
+                  type='button'
+                  onClick={() => toggleJoke(index)}
+                  className='mt-5 h-12 px-7 rounded-full border border-gray-500 bg-gray-100 text-2xl hover:bg-gray-200'
+                >
+                  {shownJokes[index] ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   )
