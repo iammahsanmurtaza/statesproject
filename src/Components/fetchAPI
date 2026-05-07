@@ -1,0 +1,4 @@
+# Fetch API
+
+The Fetch API is used to send a GET request to the server. It is equivalent to saying, "Hey server, send me the data from this URL." The server does not directly provide the data; instead, it returns a promise. The Fetch API performs an HTTP request.
+
